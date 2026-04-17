@@ -16,7 +16,16 @@ function initializeSocket(server) {
 }
 
 function getIO() {
-  if (!io) throw new Error('Socket.io not initialized');
+  if (!io) {
+    // Return a dummy object for serverless environments where socket.io isn't supported
+    return {
+      emit: () => {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Socket.io: emit called but not initialized');
+        }
+      },
+    };
+  }
   return io;
 }
 

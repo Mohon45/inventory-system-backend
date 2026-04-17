@@ -84,16 +84,19 @@ async function startCleanupJob() {
         scheduleExpiration(res.id, res.expiresAt);
     }
 
-    setInterval(async () => {
-        const overdue = await prisma.reservation.findMany({
-            where: { status: "ACTIVE", expiresAt: { lte: new Date() } },
-        });
-        for (const res of overdue) {
-            if (!activeTimers.has(res.id)) {
-                await expireReservation(res.id);
+    // Disable background interval in production (Vercel serverless)
+    if (process.env.NODE_ENV !== "production") {
+        setInterval(async () => {
+            const overdue = await prisma.reservation.findMany({
+                where: { status: "ACTIVE", expiresAt: { lte: new Date() } },
+            });
+            for (const res of overdue) {
+                if (!activeTimers.has(res.id)) {
+                    await expireReservation(res.id);
+                }
             }
-        }
-    }, 30000);
+        }, 30000);
+    }
 }
 
 module.exports = { scheduleExpiration, cancelExpiration, startCleanupJob };
