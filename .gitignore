@@ -1,0 +1,22 @@
+node_modules/
+.env
+dist/
+build/
+
+# Prisma
+prisma/migrations/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
