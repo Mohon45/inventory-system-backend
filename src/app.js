@@ -17,6 +17,7 @@ app.use(
             process.env.FRONTEND_URL || "http://localhost:5173",
             "http://localhost:4000",
             "https://inventory-system-backend-six.vercel.app",
+            "https://inventory-system-frontend-three.vercel.app",
         ],
         credentials: true,
         allowedHeaders: ["Content-Type", "Authorization"],
